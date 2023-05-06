@@ -12,7 +12,7 @@ import {
   createNavigationContainerRef,
   NavigationContainer,
 } from "@react-navigation/native";
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -29,6 +29,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SidePanelScreen1 } from "./SidePanelScreen1";
 import { SidePanelScreen2 } from "./SidePanelScreen2";
 import absoluteFill = StyleSheet.absoluteFill;
+import { SidePanelScreen3 } from "./SidePanelScreen3";
 
 const Stack = createStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -36,6 +37,49 @@ export const navigationRef = createNavigationContainerRef();
 const App = () => {
   const [leftPanelOpen, setLeftPanelOpen] = React.useState(false);
   const [leftPanelInitialRoute, setLeftPanelInitialRoute] = React.useState<string | undefined>(undefined);
+
+  const renderLeftPanel = useMemo(() => {
+    return (
+      leftPanelOpen && (
+        <View
+          style={{
+            position: "absolute",
+            backgroundColor: "red",
+            width: 300,
+            left: 100,
+            top: 20,
+            bottom: 20,
+            overflow: "hidden",
+          }}>
+          <Stack.Navigator screenOptions={{ animationEnabled: false }}>
+            {leftPanelInitialRoute === "SidePanelScreen1" && (
+              <Stack.Group>
+                <Stack.Screen
+                  name="SidePanelScreen1"
+                  component={SidePanelScreen1}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SidePanelScreen2"
+                  component={SidePanelScreen2}
+                  options={{ headerShown: false, animationEnabled: true }}
+                />
+              </Stack.Group>
+            )}
+            {leftPanelInitialRoute === "SidePanelScreen3" && (
+              <Stack.Group>
+                <Stack.Screen
+                  name="SidePanelScreen3"
+                  component={SidePanelScreen3}
+                  options={{ headerShown: false }}
+                />
+              </Stack.Group>
+            )}
+          </Stack.Navigator>
+        </View>
+      )
+    );
+  }, [leftPanelInitialRoute, leftPanelOpen]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -69,49 +113,14 @@ const App = () => {
         <View style={{ height: 10 }} />
         <Pressable
           onPress={() => {
-            setLeftPanelInitialRoute("SidePanelScreen2");
+            setLeftPanelInitialRoute("SidePanelScreen3");
             setLeftPanelOpen(true);
           }}>
-          <Text>{"Open left menu on second screen"}</Text>
+          <Text>{"Open left menu on third screen"}</Text>
         </Pressable>
       </View>
       <NavigationContainer ref={navigationRef}>
-        {leftPanelOpen && (
-          <View
-            key={leftPanelInitialRoute}
-            style={{
-              position: "absolute",
-              backgroundColor: "red",
-              width: 300,
-              left: 100,
-              top: 20,
-              bottom: 20,
-              overflow: "hidden",
-            }}>
-            <Stack.Navigator
-              initialRouteName={leftPanelInitialRoute}
-              screenOptions={{ animationEnabled: false }}>
-              <Stack.Group
-                screenOptions={{
-                  presentation: "card",
-                  animationEnabled: true,
-                }}>
-                <Stack.Screen
-                  name="SidePanelScreen1"
-                  component={SidePanelScreen1}
-                  options={{ headerShown: false }}
-                />
-              </Stack.Group>
-              <Stack.Group screenOptions={{ animationEnabled: true }}>
-                <Stack.Screen
-                  name="SidePanelScreen2"
-                  component={SidePanelScreen2}
-                  options={{ headerShown: false }}
-                />
-              </Stack.Group>
-            </Stack.Navigator>
-          </View>
-        )}
+        {leftPanelOpen && renderLeftPanel}
       </NavigationContainer>
       <NavigationContainer>
         <View
