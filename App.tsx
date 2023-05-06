@@ -11,8 +11,8 @@
 import {
   createNavigationContainerRef,
   NavigationContainer,
-} from "@react-navigation/native";
-import React, { useMemo } from "react";
+} from '@react-navigation/native';
+import React, {useMemo} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -22,56 +22,58 @@ import {
   Text,
   useColorScheme,
   View,
-} from "react-native";
-import { HomeScreen } from "./HomeScreen";
-import { createStackNavigator } from "@react-navigation/stack";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SidePanelScreen1 } from "./SidePanelScreen1";
-import { SidePanelScreen2 } from "./SidePanelScreen2";
+} from 'react-native';
+import {HomeScreen} from './HomeScreen';
+import {createStackNavigator} from '@react-navigation/stack';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {SidePanelScreen1} from './SidePanelScreen1';
+import {SidePanelScreen2} from './SidePanelScreen2';
 import absoluteFill = StyleSheet.absoluteFill;
-import { SidePanelScreen3 } from "./SidePanelScreen3";
+import {SidePanelScreen3} from './SidePanelScreen3';
 
 const Stack = createStackNavigator();
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
   const [leftPanelOpen, setLeftPanelOpen] = React.useState(false);
-  const [leftPanelInitialRoute, setLeftPanelInitialRoute] = React.useState<string | undefined>(undefined);
+  const [leftPanelInitialRoute, setLeftPanelInitialRoute] = React.useState<
+    string | undefined
+  >(undefined);
 
   const renderLeftPanel = useMemo(() => {
     return (
       leftPanelOpen && (
         <View
           style={{
-            position: "absolute",
-            backgroundColor: "red",
+            position: 'absolute',
+            backgroundColor: 'red',
             width: 300,
             left: 100,
             top: 20,
             bottom: 20,
-            overflow: "hidden",
+            overflow: 'hidden',
           }}>
-          <Stack.Navigator screenOptions={{ animationEnabled: false }}>
-            {leftPanelInitialRoute === "SidePanelScreen1" && (
+          <Stack.Navigator screenOptions={{animationEnabled: false}}>
+            {leftPanelInitialRoute === 'SidePanelScreen1' && (
               <Stack.Group>
                 <Stack.Screen
                   name="SidePanelScreen1"
                   component={SidePanelScreen1}
-                  options={{ headerShown: false }}
+                  options={{headerShown: false}}
                 />
                 <Stack.Screen
                   name="SidePanelScreen2"
                   component={SidePanelScreen2}
-                  options={{ headerShown: false, animationEnabled: true }}
+                  options={{headerShown: false, animationEnabled: true}}
                 />
               </Stack.Group>
             )}
-            {leftPanelInitialRoute === "SidePanelScreen3" && (
+            {leftPanelInitialRoute === 'SidePanelScreen3' && (
               <Stack.Group>
                 <Stack.Screen
                   name="SidePanelScreen3"
                   component={SidePanelScreen3}
-                  options={{ headerShown: false }}
+                  options={{headerShown: false}}
                 />
               </Stack.Group>
             )}
@@ -82,7 +84,7 @@ const App = () => {
   }, [leftPanelInitialRoute, leftPanelOpen]);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{flex: 1}}>
       <StatusBar />
       <HomeScreen />
       {leftPanelOpen && (
@@ -95,28 +97,28 @@ const App = () => {
       )}
       <View
         style={{
-          position: "absolute",
-          backgroundColor: "red",
+          position: 'absolute',
+          backgroundColor: 'red',
           width: 50,
           left: 20,
           top: 20,
           bottom: 20,
-          overflow: "hidden",
+          overflow: 'hidden',
         }}>
         <Pressable
           onPress={() => {
-            setLeftPanelInitialRoute("SidePanelScreen1");
+            setLeftPanelInitialRoute('SidePanelScreen1');
             setLeftPanelOpen(true);
           }}>
-          <Text>{"Open left menu on first screen"}</Text>
+          <Text>{'Open left menu on first screen'}</Text>
         </Pressable>
-        <View style={{ height: 10 }} />
+        <View style={{height: 10}} />
         <Pressable
           onPress={() => {
-            setLeftPanelInitialRoute("SidePanelScreen3");
+            setLeftPanelInitialRoute('SidePanelScreen3');
             setLeftPanelOpen(true);
           }}>
-          <Text>{"Open left menu on third screen"}</Text>
+          <Text>{'Open left menu on third screen'}</Text>
         </Pressable>
       </View>
       <NavigationContainer ref={navigationRef}>
@@ -125,8 +127,8 @@ const App = () => {
       <NavigationContainer>
         <View
           style={{
-            position: "absolute",
-            backgroundColor: "red",
+            position: 'absolute',
+            backgroundColor: 'red',
             width: 300,
             right: 20,
             top: 20,
@@ -136,7 +138,7 @@ const App = () => {
             <Stack.Screen
               name="SidePanelScreen1"
               component={SidePanelScreen1}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="SidePanelScreen2"
@@ -156,15 +158,15 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   highlight: {
-    fontWeight: "700",
+    fontWeight: '700',
   },
 });
 
